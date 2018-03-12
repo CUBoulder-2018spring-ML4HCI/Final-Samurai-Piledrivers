@@ -1,0 +1,39 @@
+Feedback Notes from class 3/12
+
+
+
+Names, duh, title too. 
+What games? Pick some specific games. Some that would be easy and some that would be hard. Street fighter and combos, how easy different ‘inputs’ are. 
+A lot of games are multi modal, so one to one interaction mappings are not the best idea. Think about menus vs overworld vs minigames. (fallout). 
+User interface is huge, as is the mapping of movements. Match hard movements to hard actions in game, (haddouken is difficult, move left is easy)
+As such we should restrict the number of games we test on. 
+Ethics issues listed aren’t really ethical issues. Check that. 
+Concept phase, nail down games you will use, training process, 
+What is our meeting time? 
+What are the steps that we need to take
+Plan out the project in very concrete steps. 
+Make a debugging interface like a pseudo-game to develop the controller
+Check menu screens to change the controls. This could be done via webcam on the game screen or by the music that it plays.
+Make profiles of 
+
+Meeting times:
+Tues/Thurs 5-whenever PM.
+
+Schedule:
+	
+What we need to get done:
+Figure out precisely what hardware we want to use.
+Things that could work
+Eyebrow tracking
+Foot pedal
+Chest in and out
+Perhaps leap motion might work though with head tilt
+
+
+Things that won’t work
+Eye tracking b/c gaze should be on game
+Leap motion would be exhausting, 
+What games we want to test this on 
+How to interface to said games
+Interfacing with the user
+Intuitive model building with the user. 
