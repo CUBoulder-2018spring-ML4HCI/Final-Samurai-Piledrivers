@@ -37,3 +37,5 @@ What games we want to test this on
 How to interface to said games
 Interfacing with the user
 Intuitive model building with the user. 
+
+Check out tool assisted speedrun, and break apart a controller to solder in an arduino to activate the buttons.
