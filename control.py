@@ -20,8 +20,9 @@ import time
 
 while(1):
     pyautogui.keyDown('right')
-    pyautogui.keyUp('a')
-    pyautogui.keyUp('s')
     pyautogui.keyDown('d')
+    pyautogui.keyUp('right')
+    pyautogui.keyUp('d')
+   
 
     time.sleep(1)
