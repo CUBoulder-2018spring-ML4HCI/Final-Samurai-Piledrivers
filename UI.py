@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-
+from tkinter.ttk import *
+from tkinter import *
 
 
 class Page(tk.Frame):
@@ -22,11 +23,35 @@ class Build(Page):
        label = tk.Label(self, text="Build your Schema")
        label.pack(side="top", fill="both", expand=True)
 
+
+def loadSchema(Sid):
+    pass
+
+
 class PickSchema(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
        label = tk.Label(self, text="Select your schema")
-       label.pack(side="top", fill="both", expand=True)
+       label.pack(side="top", expand=False)
+
+       selected = IntVar()
+
+       rad1 = Radiobutton(self, text='Cool Schema', value=1, variable=selected)
+
+       rad2 = Radiobutton(self, text='Lame Schema', value=2, variable=selected)
+
+       rad3 = Radiobutton(self, text='Cheating Schema', value=3, variable=selected)
+       
+       selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=loadSchema(selected))
+
+       rad1.pack(side="top", fill="both", expand=False)
+
+       rad2.pack(side="top", fill="both", expand=False)
+
+       rad3.pack(side="top", fill="both", expand=False)
+       
+       selects.pack(side="top", expand=False)
+
 
 class Tutorial(Page):
    def __init__(self, *args, **kwargs):
@@ -37,16 +62,12 @@ class Tutorial(Page):
 class LaunchGame(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="Launch game")
-       label.pack(side="top", fill="both", expand=True)
-       buttonframe = tk.Frame(self)
-       container = tk.Frame(self)
-       buttonframe.pack(side="top", fill="x", expand=False)
-       container.pack(side="top", fill="both", expand=True)
+       
        def mclicked():
-          messagebox.showinfo('Launching', 'Will launch the game when plugged in')
-       Launchbtn = tk.Button(buttonframe, text="Launch", command= mclicked())
-       Launchbtn.pack(side="bottom")
+           pass
+          #messagebox.showinfo('Launching', 'Will launch the game when plugged in')
+       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked())
+       Launchbtn.pack(side="top",)
 
 
 
