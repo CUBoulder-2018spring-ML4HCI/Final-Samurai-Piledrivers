@@ -1,3 +1,11 @@
+Week of 4/9/2018:
+
+Matt: Lots of testing for scripts and other softwares to reproduce the fireball combo in street fighter 2
+
+link to youtube update on combos: https://youtu.be/_QDbjUIh3ug
+
+Kevin: Found new emulator to allow keypresses to be used as input. Now able to use street fighter as our main game. Attempted to also make scripts for street fighter by using real life keyboard timing presses and delays in input, but was unsuccessful doing so. Will finish Myoband mapping if it has not been finished yet. Successfully executed combo with script.
+
 Updates as of 4/1/2018:
 
 Proof of concept has been implemented; it consists of controlling game input and performing a combo in Super Smash Bros with Python.
