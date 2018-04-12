@@ -3,16 +3,18 @@ from tkinter.ttk import *
 from tkinter import *
 import os
 
-SchemaList = ['Empty']*10
+SchemaList = ['Empty'] * 10
 
 def ModelFinder():
-
     for root, dirs, files in os.walk("./Schemas"):
-        i=0
+        i = 0
         for filename in files:
-            SchemaList[i]=filename
-            i=i+1
-        #print(SchemaList)
+            SchemaList[i] = filename
+            i = i + 1
+
+
+class LoadedSchema():
+    def
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -21,75 +23,84 @@ class Page(tk.Frame):
     def show(self):
         self.lift()
 
+
 class InitPage(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="Welcome to Samurai Piledrivers, \n The accessible game interface. \n Please select what you would like to do from the top menu bar. \n If you are new, build a new schema or select a premade schema from the options. \n If you wish to test the schema, select schema tutorial. \n If you are all set and ready to play, select launch game.", font=("Arial Bold", 15))
-       label.pack(side="top", expand=True)
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self,
+                         text="Welcome to Samurai Piledrivers, \n The accessible game interface. \n Please select what you would like to do from the top menu bar. \n If you are new, build a new schema or select a premade schema from the options. \n If you wish to test the schema, select schema tutorial. \n If you are all set and ready to play, select launch game.",
+                         font=("Arial Bold", 15))
+        label.pack(side="top", expand=True)
+
 
 class Build(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="Build your Schema")
-       label.pack(side="top", fill="both", expand=True)
-
-
-def loadSchema(Sid):
-    pass
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, text="Build your Schema")
+        label.pack(side="top", fill="both", expand=True)
 
 
 class PickSchema(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="Select your schema")
-       label.pack(side="top", expand=False)
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, text="Select your schema")
+        label.pack(side="top", expand=False)
 
-       ModelFinder()
+        def loadSchema(Sid):
+            print("cactus", var.get())
 
-       selected = IntVar()
+        selected = 0
 
-       rad1 = Radiobutton(self, text=SchemaList[0], value=1, variable=selected)
-       rad2 = Radiobutton(self, text=SchemaList[1], value=2, variable=selected)
-       rad3 = Radiobutton(self, text=SchemaList[2], value=3, variable=selected)
-       rad4 = Radiobutton(self, text=SchemaList[3], value=4, variable=selected)
-       rad5 = Radiobutton(self, text=SchemaList[4], value=5, variable=selected)
-       rad6 = Radiobutton(self, text=SchemaList[5], value=6, variable=selected)
-       rad7 = Radiobutton(self, text=SchemaList[6], value=7, variable=selected)
-       rad8 = Radiobutton(self, text=SchemaList[7], value=8, variable=selected)
-       rad9 = Radiobutton(self, text=SchemaList[8], value=9, variable=selected)
-       
-       selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=loadSchema(selected))
+        def sel():
+            global selected
+            selected = var.get()
 
-       rad1.pack(side="top", fill="both", expand=False)
-       rad2.pack(side="top", fill="both", expand=False)
-       rad3.pack(side="top", fill="both", expand=False)
-       rad4.pack(side="top", fill="both", expand=False)
-       rad5.pack(side="top", fill="both", expand=False)
-       rad6.pack(side="top", fill="both", expand=False)
-       rad7.pack(side="top", fill="both", expand=False)
-       rad8.pack(side="top", fill="both", expand=False)
-       rad9.pack(side="top", fill="both", expand=False)
+        var = IntVar()
 
-       selects.pack(side="top", expand=False)
+        ModelFinder()
 
+        rad1 = Radiobutton(self, text=SchemaList[0], variable=var, value=1, command=sel)
+        rad2 = Radiobutton(self, text=SchemaList[1], variable=var, value=2, command=sel)
+        rad3 = Radiobutton(self, text=SchemaList[2], variable=var, value=3, command=sel)
+        rad4 = Radiobutton(self, text=SchemaList[3], variable=var, value=4, command=sel)
+        rad5 = Radiobutton(self, text=SchemaList[4], variable=var, value=5, command=sel)
+        rad6 = Radiobutton(self, text=SchemaList[5], variable=var, value=6, command=sel)
+        rad7 = Radiobutton(self, text=SchemaList[6], variable=var, value=7, command=sel)
+        rad8 = Radiobutton(self, text=SchemaList[7], variable=var, value=8, command=sel)
+        rad9 = Radiobutton(self, text=SchemaList[8], variable=var, value=9, command=sel)
+
+        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15),command=lambda: loadSchema(selected))
+
+        rad1.pack(side="top", fill="both", expand=False)
+        rad2.pack(side="top", fill="both", expand=False)
+        rad3.pack(side="top", fill="both", expand=False)
+        rad4.pack(side="top", fill="both", expand=False)
+        rad5.pack(side="top", fill="both", expand=False)
+        rad6.pack(side="top", fill="both", expand=False)
+        rad7.pack(side="top", fill="both", expand=False)
+        rad8.pack(side="top", fill="both", expand=False)
+        rad9.pack(side="top", fill="both", expand=False)
+
+        selects.pack(side="top", expand=False)
 
 
 class Tutorial(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="Test and try out your schema")
-       label.pack(side="top", fill="both", expand=True)
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
+        label = tk.Label(self, text="Test and try out your schema")
+        label.pack(side="top", fill="both", expand=True)
+
 
 class LaunchGame(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       
-       def mclicked():
-           pass
-          #messagebox.showinfo('Launching', 'Will launch the game when plugged in')
-       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked())
-       Launchbtn.pack(side="top",)
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
 
+        def mclicked():
+            pass
+
+        # messagebox.showinfo('Launching', 'Will launch the game when plugged in')
+        Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked())
+        Launchbtn.pack(side="top", )
 
 
 class MainView(tk.Frame):
@@ -107,15 +118,13 @@ class MainView(tk.Frame):
         buttonframe.pack(side="top", fill="x", expand=False)
         container.pack(side="top", fill="both", expand=True)
 
-
         ip.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         bp.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         ps.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         tu.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         lg.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
-        #Label = tk.Label(buttonframe, text="SelectedSchema", command=bp.lift)
-
+        # Label = tk.Label(buttonframe, text="SelectedSchema", command=bp.lift)
 
         b1 = tk.Button(buttonframe, text="Build New Schema", command=bp.lift)
         b2 = tk.Button(buttonframe, text="Select Existing Schema", command=ps.lift)
@@ -130,6 +139,7 @@ class MainView(tk.Frame):
         b5.pack(side="left")
 
         ip.show()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
