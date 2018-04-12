@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.ttk import *
 from tkinter import *
 import os
+import webbrowser
 
 SchemaList = ['Empty']*10
 
@@ -57,7 +58,7 @@ class PickSchema(Page):
        rad7 = Radiobutton(self, text=SchemaList[6], value=7, variable=selected)
        rad8 = Radiobutton(self, text=SchemaList[7], value=8, variable=selected)
        rad9 = Radiobutton(self, text=SchemaList[8], value=9, variable=selected)
-       
+
        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=loadSchema(selected))
 
        rad1.pack(side="top", fill="both", expand=False)
@@ -83,11 +84,13 @@ class Tutorial(Page):
 class LaunchGame(Page):
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
-       
+
        def mclicked():
-           pass
-          #messagebox.showinfo('Launching', 'Will launch the game when plugged in')
-       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked())
+           url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
+           chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
+           webbrowser.get(chrome_path).open(url)
+
+       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked)
        Launchbtn.pack(side="top",)
 
 
