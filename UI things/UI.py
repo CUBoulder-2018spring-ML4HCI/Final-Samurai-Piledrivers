@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter.ttk import *
 from tkinter import *
 import os
+import webbrowser
 
 SchemaList = ['Empty'] * 10
 
@@ -59,6 +60,7 @@ class PickSchema(Page):
 
         ModelFinder()
 
+<<<<<<< HEAD
         rad1 = Radiobutton(self, text=SchemaList[0], variable=var, value=1, command=sel)
         rad2 = Radiobutton(self, text=SchemaList[1], variable=var, value=2, command=sel)
         rad3 = Radiobutton(self, text=SchemaList[2], variable=var, value=3, command=sel)
@@ -68,6 +70,19 @@ class PickSchema(Page):
         rad7 = Radiobutton(self, text=SchemaList[6], variable=var, value=7, command=sel)
         rad8 = Radiobutton(self, text=SchemaList[7], variable=var, value=8, command=sel)
         rad9 = Radiobutton(self, text=SchemaList[8], variable=var, value=9, command=sel)
+=======
+       rad1 = Radiobutton(self, text=SchemaList[0], value=1, variable=selected)
+       rad2 = Radiobutton(self, text=SchemaList[1], value=2, variable=selected)
+       rad3 = Radiobutton(self, text=SchemaList[2], value=3, variable=selected)
+       rad4 = Radiobutton(self, text=SchemaList[3], value=4, variable=selected)
+       rad5 = Radiobutton(self, text=SchemaList[4], value=5, variable=selected)
+       rad6 = Radiobutton(self, text=SchemaList[5], value=6, variable=selected)
+       rad7 = Radiobutton(self, text=SchemaList[6], value=7, variable=selected)
+       rad8 = Radiobutton(self, text=SchemaList[7], value=8, variable=selected)
+       rad9 = Radiobutton(self, text=SchemaList[8], value=9, variable=selected)
+
+       selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=loadSchema(selected))
+>>>>>>> a3a90f51cb1b751715941653c3c06d347a2b15ff
 
         selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15),command=lambda: loadSchema(selected))
 
@@ -92,8 +107,21 @@ class Tutorial(Page):
 
 
 class LaunchGame(Page):
+<<<<<<< HEAD
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
+=======
+   def __init__(self, *args, **kwargs):
+       Page.__init__(self, *args, **kwargs)
+
+       def mclicked():
+           url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
+           chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
+           webbrowser.get(chrome_path).open(url)
+
+       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked)
+       Launchbtn.pack(side="top",)
+>>>>>>> a3a90f51cb1b751715941653c3c06d347a2b15ff
 
         def mclicked():
             pass
