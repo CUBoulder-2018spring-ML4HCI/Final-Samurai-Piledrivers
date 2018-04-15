@@ -1,3 +1,7 @@
+Week of 4/16/2018:
+
+Nick: Working on a multi-level gesture recognition model using two instances of Wekinator. The first instance classifies basic gestures and sends the classifier outputs to the second instance of wekinator. The second instance of Wekinator takes the basic gesture classifications as inputs, then uses DTW to distinguish multi-part gestures, which are made up of a combination of simple gestures.
+
 Week of 4/9/2018:
 
 Matt: Lots of testing for scripts and other softwares to reproduce the fireball combo in street fighter 2
