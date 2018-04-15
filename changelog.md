@@ -1,6 +1,6 @@
 Week of 4/16/2018:
 
-Nick: Working on a multi-level gesture recognition model using two instances of Wekinator. The first instance classifies basic gestures and sends the classifier outputs to the second instance of wekinator. The second instance of Wekinator takes the basic gesture classifications as inputs, then uses DTW to distinguish multi-part gestures, which are made up of a combination of simple gestures.
+Nick: Working on a multi-level gesture recognition model using two instances of Wekinator. The first instance classifies basic gestures and sends the classifier outputs to the second instance of wekinator. The second instance of Wekinator takes the basic gesture classifications as inputs, then uses DTW to distinguish multi-part gestures, which are made up of a combination of simple gestures. Simple gesture classification is working well. The multi-part recognition still needs some smoothing to eliminate noise.
 
 Week of 4/9/2018:
 
