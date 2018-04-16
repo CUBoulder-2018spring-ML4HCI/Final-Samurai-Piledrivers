@@ -4,12 +4,28 @@ from tkinter import *
 import os
 import webbrowser
 import socket
-import msvcrt
+# import msvcrt
 import pyautogui
+
+# OSC Stuff
+import argparse
+import random
+import time
+from pythonosc import osc_message_builder
+from pythonosc import udp_client
 
 UDP_IP = "127.0.0.1"
 UDP_PORT_SEND = 6448
 UDP_PORT_RECE = 12000
+
+# Create OSC Client
+parser = argparse.ArgumentParser()
+parser.add_argument("--ip", default="127.0.0.1",
+  help="The ip of the OSC server")
+parser.add_argument("--port", type=int, default=6448,
+  help="The port the OSC server is listening on")
+args = parser.parse_args()
+client = udp_client.SimpleUDPClient(args.ip, args.port)
 
 sock_RECE = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock_RECE.bind((UDP_IP, UDP_PORT_RECE))
@@ -67,13 +83,18 @@ class Build(Page):
             global RecSel
             global tempText
             if RecSel:
+                # Record
+                client.send_message("/wekinator/control/startRecording", 1)
                 RecSel = not RecSel
                 update_btn_text("Stop")
                 print("Recording value", temp)
             else:
+                # Stop
+                client.send_message("/wekinator/control/stopRecording", 1)
                 print("Stopped recording")
                 RecSel = not RecSel
                 update_btn_text("Record")
+
 
         def sel():
             global selected
@@ -93,6 +114,7 @@ class Build(Page):
 
         GlobalBuildHandler()
         btn_text = tk.StringVar()
+        sel()
         RecStop = Button(self, textvariable=btn_text, bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: RecSelected(selected))
         btn_text.set("Record")
