@@ -15,7 +15,7 @@ def ModelFinder():
 
 
 class LoadedSchema():
-    def
+    pass
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -40,6 +40,54 @@ class Build(Page):
         label = tk.Label(self, text="Build your Schema")
         label.pack(side="top", fill="both", expand=True)
 
+        def RecSelected(sid):
+            print("cactus", var.get())
+            temp = var.get()
+            global RecSel
+            if RecSel:
+                print("Recording value", temp)
+            else:
+                print("Stopped recording")
+
+        def RecSelText(RecSel):
+            if RecSel:
+                return "Record"
+            else:
+                return "Stop Recording"
+
+        def sel():
+            global selected
+            selected = var.get()
+
+        var = IntVar()
+
+        rad1 = Radiobutton(self, text="Jump", variable=var, value=1, command=sel)
+        rad2 = Radiobutton(self, text="Crouch", variable=var, value=2, command=sel)
+        rad3 = Radiobutton(self, text="Left", variable=var, value=3, command=sel)
+        rad4 = Radiobutton(self, text="Right", variable=var, value=4, command=sel)
+        rad5 = Radiobutton(self, text="A", variable=var, value=5, command=sel)
+        rad6 = Radiobutton(self, text="B", variable=var, value=6, command=sel)
+        rad7 = Radiobutton(self, text="X", variable=var, value=7, command=sel)
+        rad8 = Radiobutton(self, text="Combo 1", variable=var, value=8, command=sel)
+        rad9 = Radiobutton(self, text="Combo 2", variable=var, value=9, command=sel)
+
+        RecSel = True
+        tempText = RecSelText(RecSel)
+        RecStop = Button(self, text=tempText, bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: RecSelected(selected))
+
+        rad1.pack(side="top", fill="both", expand=False)
+        rad2.pack(side="top", fill="both", expand=False)
+        rad3.pack(side="top", fill="both", expand=False)
+        rad4.pack(side="top", fill="both", expand=False)
+        rad5.pack(side="top", fill="both", expand=False)
+        rad6.pack(side="top", fill="both", expand=False)
+        rad7.pack(side="top", fill="both", expand=False)
+        rad8.pack(side="top", fill="both", expand=False)
+        rad9.pack(side="top", fill="both", expand=False)
+
+        RecStop.pack(side="top", expand=False)
+
 
 class PickSchema(Page):
     def __init__(self, *args, **kwargs):
@@ -60,7 +108,6 @@ class PickSchema(Page):
 
         ModelFinder()
 
-<<<<<<< HEAD
         rad1 = Radiobutton(self, text=SchemaList[0], variable=var, value=1, command=sel)
         rad2 = Radiobutton(self, text=SchemaList[1], variable=var, value=2, command=sel)
         rad3 = Radiobutton(self, text=SchemaList[2], variable=var, value=3, command=sel)
@@ -70,21 +117,9 @@ class PickSchema(Page):
         rad7 = Radiobutton(self, text=SchemaList[6], variable=var, value=7, command=sel)
         rad8 = Radiobutton(self, text=SchemaList[7], variable=var, value=8, command=sel)
         rad9 = Radiobutton(self, text=SchemaList[8], variable=var, value=9, command=sel)
-=======
-       rad1 = Radiobutton(self, text=SchemaList[0], value=1, variable=selected)
-       rad2 = Radiobutton(self, text=SchemaList[1], value=2, variable=selected)
-       rad3 = Radiobutton(self, text=SchemaList[2], value=3, variable=selected)
-       rad4 = Radiobutton(self, text=SchemaList[3], value=4, variable=selected)
-       rad5 = Radiobutton(self, text=SchemaList[4], value=5, variable=selected)
-       rad6 = Radiobutton(self, text=SchemaList[5], value=6, variable=selected)
-       rad7 = Radiobutton(self, text=SchemaList[6], value=7, variable=selected)
-       rad8 = Radiobutton(self, text=SchemaList[7], value=8, variable=selected)
-       rad9 = Radiobutton(self, text=SchemaList[8], value=9, variable=selected)
 
-       selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=loadSchema(selected))
->>>>>>> a3a90f51cb1b751715941653c3c06d347a2b15ff
 
-        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15),command=lambda: loadSchema(selected))
+        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=lambda: loadSchema(selected))
 
         rad1.pack(side="top", fill="both", expand=False)
         rad2.pack(side="top", fill="both", expand=False)
@@ -98,19 +133,13 @@ class PickSchema(Page):
 
         selects.pack(side="top", expand=False)
 
-
 class Tutorial(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
         label = tk.Label(self, text="Test and try out your schema")
         label.pack(side="top", fill="both", expand=True)
 
-
 class LaunchGame(Page):
-<<<<<<< HEAD
-    def __init__(self, *args, **kwargs):
-        Page.__init__(self, *args, **kwargs)
-=======
    def __init__(self, *args, **kwargs):
        Page.__init__(self, *args, **kwargs)
 
@@ -120,16 +149,7 @@ class LaunchGame(Page):
            webbrowser.get(chrome_path).open(url)
 
        Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked)
-       Launchbtn.pack(side="top",)
->>>>>>> a3a90f51cb1b751715941653c3c06d347a2b15ff
-
-        def mclicked():
-            pass
-
-        # messagebox.showinfo('Launching', 'Will launch the game when plugged in')
-        Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked())
-        Launchbtn.pack(side="top", )
-
+       Launchbtn.pack(side="top")
 
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
