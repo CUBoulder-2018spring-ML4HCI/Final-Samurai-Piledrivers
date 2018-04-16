@@ -3,8 +3,19 @@ from tkinter.ttk import *
 from tkinter import *
 import os
 import webbrowser
+import socket
+import msvcrt
+import pyautogui
+
+UDP_IP = "127.0.0.1"
+UDP_PORT_SEND = 6448
+UDP_PORT_RECE = 12000
+
+sock_RECE = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock_RECE.bind((UDP_IP, UDP_PORT_RECE))
 
 SchemaList = ['Empty'] * 10
+
 
 def ModelFinder():
     for root, dirs, files in os.walk("./Schemas"):
@@ -16,6 +27,7 @@ def ModelFinder():
 
 class LoadedSchema():
     pass
+
 
 class Page(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -37,23 +49,31 @@ class InitPage(Page):
 class Build(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
-        label = tk.Label(self, text="Build your Schema")
-        label.pack(side="top", fill="both", expand=True)
+        label = tk.Label(self, text="To build a schema, select a control, and record your input for that control.")
+        label.pack(side="top", fill="both", expand=False)
+
+        def GlobalBuildHandler():
+            global RecSel
+            RecSel = True
+            global tempText
+            tempText = "Record"
+
+        def update_btn_text(val):
+            btn_text.set(val)
 
         def RecSelected(sid):
             print("cactus", var.get())
             temp = var.get()
             global RecSel
+            global tempText
             if RecSel:
+                RecSel = not RecSel
+                update_btn_text("Stop")
                 print("Recording value", temp)
             else:
                 print("Stopped recording")
-
-        def RecSelText(RecSel):
-            if RecSel:
-                return "Record"
-            else:
-                return "Stop Recording"
+                RecSel = not RecSel
+                update_btn_text("Record")
 
         def sel():
             global selected
@@ -71,10 +91,11 @@ class Build(Page):
         rad8 = Radiobutton(self, text="Combo 1", variable=var, value=8, command=sel)
         rad9 = Radiobutton(self, text="Combo 2", variable=var, value=9, command=sel)
 
-        RecSel = True
-        tempText = RecSelText(RecSel)
-        RecStop = Button(self, text=tempText, bg="#6c93d1", font=("Arial Bold", 15),
+        GlobalBuildHandler()
+        btn_text = tk.StringVar()
+        RecStop = Button(self, textvariable=btn_text, bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: RecSelected(selected))
+        btn_text.set("Record")
 
         rad1.pack(side="top", fill="both", expand=False)
         rad2.pack(side="top", fill="both", expand=False)
@@ -118,8 +139,8 @@ class PickSchema(Page):
         rad8 = Radiobutton(self, text=SchemaList[7], variable=var, value=8, command=sel)
         rad9 = Radiobutton(self, text=SchemaList[8], variable=var, value=9, command=sel)
 
-
-        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15), command=lambda: loadSchema(selected))
+        selects = Button(self, text='Select Schema', bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: loadSchema(selected))
 
         rad1.pack(side="top", fill="both", expand=False)
         rad2.pack(side="top", fill="both", expand=False)
@@ -133,23 +154,106 @@ class PickSchema(Page):
 
         selects.pack(side="top", expand=False)
 
+
 class Tutorial(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
         label = tk.Label(self, text="Test and try out your schema")
         label.pack(side="top", fill="both", expand=True)
 
+        def tutorialbutton():
+            print("something should go here at some point")
+
+        Launchbtn = tk.Button(self, text="Launch Tutorial", bg="#6c93d1", font=("Arial Bold", 20),
+                              command=tutorialbutton())
+        Launchbtn.pack(side="top")
+
+
 class LaunchGame(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        Page.__init__(self, *args, **kwargs)
 
-       def mclicked():
-           url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
-           chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-           webbrowser.get(chrome_path).open(url)
+        def readch():
+            """ Get a single character on Windows.
+            see http://msdn.microsoft.com/en-us/library/078sfkak
+            """
+            ch = msvcrt.getch()
+            if ch in b'\x00\xe0':  # arrow or function key prefix?
+                ch = msvcrt.getch()  # second call returns the actual key code
+            return ch
 
-       Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command= mclicked)
-       Launchbtn.pack(side="top")
+        def control():
+                while True:
+
+                    if msvcrt.kbhit():
+                        key = ord(readch())
+                        if key == 27:  # ord('a')
+                            break
+                    # here are the classes, 1,2,3,4,,6,7,8: up,left,down,right,throw,quick,heavy,dodge
+                    # listen for the wek, this will be replaced later by an in house ML algo.
+                    data, addr = sock_RECE.recvfrom(1024)  # buffer size is 1024 bytes
+                    # print(data, len(data),"/n")
+                    # print(data[20],data[21])
+
+
+
+                    if data[20] == 63:
+                        # class 1
+                        pyautogui.keyDown('w')
+                        pyautogui.keyUp('w')
+                        print("up")
+
+                    elif data[20] == 64:
+                        if data[21] == 0:
+                            # class 2
+                            pyautogui.keyDown('a')
+                            pyautogui.keyUp('a')
+                            print("left")
+                        elif data[21] == 64:
+                            # class 3
+                            pyautogui.keyDown('s')
+                            pyautogui.keyUp('s')
+                            print("down")
+                        elif data[21] == 128:
+                            # class 4
+                            pyautogui.keyDown('d')
+                            pyautogui.keyUp('d')
+                            print("right")
+                        elif data[21] == 160:
+                            # class 5
+                            pyautogui.keyDown('h')
+                            pyautogui.keyUp('h')
+                            print("throw")
+                        elif data[21] == 192:
+                            # class 6
+                            pyautogui.keyDown('j')
+                            pyautogui.keyUp('j')
+                            print("quick")
+                        elif data[21] == 224:
+                            # class 7
+                            pyautogui.keyDown('k')
+                            pyautogui.keyUp('k')
+                            print("heavy")
+
+                    elif data[20] == 65:
+                        if data[21] != 16:
+                            # class 8
+                            pyautogui.keyDown('l')
+                            pyautogui.keyUp('l')
+                            print("dodge")
+                        elif data[21] == 16:
+                            # class 9
+                            print("standby")
+
+        def mclicked():
+            url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
+            chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
+            webbrowser.get(chrome_path).open(url)
+            control()
+
+        Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked)
+        Launchbtn.pack(side="top")
+
 
 class MainView(tk.Frame):
     def __init__(self, *args, **kwargs):
