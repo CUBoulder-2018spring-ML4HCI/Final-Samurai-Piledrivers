@@ -65,6 +65,7 @@ class InitPage(Page):
 class Build(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
+
         label = tk.Label(self, text="To build a schema, select a control, and record your input for that control.")
         label.pack(side="top", fill="both", expand=False)
 
@@ -100,6 +101,24 @@ class Build(Page):
             global selected
             selected = var.get()
 
+        # Choose a charcter
+        chara = tk.Label(self, text="Choose the character this schema will be for:")
+        chara.pack(side="top", fill="both", expand=False)
+
+        charVar = IntVar()
+
+        c1 = Radiobutton(self, text="Ryu", variable=charVar, value=1, command=sel)
+        c2 = Radiobutton(self, text="Sagat", variable=charVar, value=2, command=sel)
+        c3 = Radiobutton(self, text="M.Bison", variable=charVar, value=3, command=sel)
+
+        c1.pack(side="top", fill="both", expand=False)
+        c2.pack(side="top", fill="both", expand=False)
+        c3.pack(side="top", fill="both", expand=False)
+
+        # Choose the move to map
+        move = tk.Label(self, text="Select a move and map it to a control:")
+        move.pack(side="top", fill="both", expand=False)
+
         var = IntVar()
 
         rad1 = Radiobutton(self, text="Jump", variable=var, value=1, command=sel)
@@ -114,6 +133,7 @@ class Build(Page):
 
         GlobalBuildHandler()
         btn_text = tk.StringVar()
+
         sel()
         RecStop = Button(self, textvariable=btn_text, bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: RecSelected(selected))
