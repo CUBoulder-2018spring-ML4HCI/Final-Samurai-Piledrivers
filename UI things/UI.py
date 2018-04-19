@@ -97,6 +97,9 @@ class Build(Page):
                 RecSel = not RecSel
                 update_btn_text("Record")
 
+        # Call train osc message
+        def Train():
+            client.send_message("/wekinator/control/train", 1)
 
         def sel():
             global selected
@@ -151,6 +154,12 @@ class Build(Page):
         rad9.pack(side="top", fill="both", expand=False)
 
         RecStop.pack(side="top", expand=False)
+
+        # Train button
+        TrainButton = Button(self, text="Train", bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: Train())
+
+        TrainButton.pack(side="top", expand=False)
 
 
 class PickSchema(Page):
