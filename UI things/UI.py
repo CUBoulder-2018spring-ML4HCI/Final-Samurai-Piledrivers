@@ -290,7 +290,7 @@ class LaunchGame(Page):
         # Launch Game
         def mclicked():
             chrome_path = ''
-            
+
             if platform == "linux" or platform == "linux2":
                 # linux
                 chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
@@ -303,6 +303,10 @@ class LaunchGame(Page):
 
             url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
 
+            # Run Wekinator
+            client.send_message("/wekinator/control/startRunning", 1)
+
+            # Launch Chrome
             webbrowser.get(chrome_path).open(url)
             control()
 
