@@ -1,5 +1,7 @@
 Week of 4/16/2018:
 
+Robert: So I actually have been forgetting to fill out change logs because I wasn't paying attention to group texts, but you can ask my group memebers, I have been doing my fair share of work for sure. This week I moved the control into the python UI and made the part that takes wek input launchable from the UI. Partially solved backlog problem from last week, but failed to implement a break in the infinite loop of the control script.  
+
 Matt:  Worked on writing combo scripts for differnt characters in street fighter 2.  
 
 Link to video of testing two different Ryu combos: https://youtu.be/mlgFNF2yPGg 
@@ -11,6 +13,8 @@ Nick: Working on a multi-level gesture recognition model using two instances of 
 Kevin: Created two new character scripts for Sagat and M. Bison. Was only able to get a couple moves for each character, as most of the combos could not be accurately triggered. The combos that were created work pretty much 100% of the time.
 
 Week of 4/9/2018:
+
+Robert: made Microbit talk to the Wek, and then fed the Wek into python. Had issues with pace in each of the programs that remained unresolved. 
 
 Matt: Lots of testing for scripts and other softwares to reproduce the fireball combo in street fighter 2
 
