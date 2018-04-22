@@ -1,3 +1,10 @@
+
+4/22/2018:
+
+Matt:  Working on getting inputs from the microbit in python to my machine using serialization.  If it provrs to time comsuming we willl collect our raw data using processing from our hardware.  I allso helped write a script that boots up our emulator for street fighter in the backround using pyautogui
+
+
+
 Week of 4/16/2018:
 
 Robert: So I actually have been forgetting to fill out change logs because I wasn't paying attention to group texts, but you can ask my group memebers, I have been doing my fair share of work for sure. This week I moved the control into the python UI and made the part that takes wek input launchable from the UI. Partially solved backlog problem from last week, but failed to implement a break in the infinite loop of the control script.  
