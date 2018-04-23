@@ -3,6 +3,8 @@
 
 Matt:  Working on getting inputs from the microbit in python to my machine using serialization.  If it provrs to time comsuming we willl collect our raw data using processing from our hardware.  I allso helped write a script that boots up our emulator for street fighter in the backround using pyautogui
 
+Robert: Made UI call control via another function, and hooked that up to the combo scripts so that it can exectue combos when a certain wekintaor output is recived. Removed the control section from the UI so now the launch game is simpler and got the radio button character selector to pass a variable to the new separate control module. 
+
 
 
 Week of 4/16/2018:
