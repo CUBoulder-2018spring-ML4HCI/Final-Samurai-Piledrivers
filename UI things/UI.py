@@ -3,6 +3,7 @@ from tkinter.ttk import *
 from tkinter import *
 import os
 import webbrowser
+import control
 import socket
 # import msvcrt
 import pyautogui
@@ -15,9 +16,7 @@ import time
 from pythonosc import osc_message_builder
 from pythonosc import udp_client
 
-UDP_IP = "127.0.0.1"
-UDP_PORT_SEND = 6448
-UDP_PORT_RECE = 12000
+character = 0
 
 # Create OSC Client
 parser = argparse.ArgumentParser()
@@ -28,8 +27,6 @@ parser.add_argument("--port", type=int, default=6448,
 args = parser.parse_args()
 client = udp_client.SimpleUDPClient(args.ip, args.port)
 
-sock_RECE = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock_RECE.bind((UDP_IP, UDP_PORT_RECE))
 
 SchemaList = ['Empty'] * 10
 
@@ -76,6 +73,7 @@ class Build(Page):
             global tempText
             tempText = "Record"
 
+
         def update_btn_text(val):
             btn_text.set(val)
 
@@ -105,15 +103,24 @@ class Build(Page):
             global selected
             selected = var.get()
 
+        def sel2():
+            global character
+            character = var.get()
+
+        def save():
+            global character
+            character = charVar.get()
+            print(character)
+
         # Choose a charcter
         chara = tk.Label(self, text="Choose the character this schema will be for:")
         chara.pack(side="top", fill="both", expand=False)
 
         charVar = IntVar()
 
-        c1 = Radiobutton(self, text="Ryu", variable=charVar, value=1, command=sel)
-        c2 = Radiobutton(self, text="Sagat", variable=charVar, value=2, command=sel)
-        c3 = Radiobutton(self, text="M.Bison", variable=charVar, value=3, command=sel)
+        c1 = Radiobutton(self, text="Ryu", variable=charVar, value=1, command=sel2)
+        c2 = Radiobutton(self, text="Sagat", variable=charVar, value=2, command=sel2)
+        c3 = Radiobutton(self, text="M.Bison", variable=charVar, value=3, command=sel2)
 
         c1.pack(side="top", fill="both", expand=False)
         c2.pack(side="top", fill="both", expand=False)
@@ -132,8 +139,6 @@ class Build(Page):
         rad5 = Radiobutton(self, text="A", variable=var, value=5, command=sel)
         rad6 = Radiobutton(self, text="B", variable=var, value=6, command=sel)
         rad7 = Radiobutton(self, text="X", variable=var, value=7, command=sel)
-        rad8 = Radiobutton(self, text="Combo 1", variable=var, value=8, command=sel)
-        rad9 = Radiobutton(self, text="Combo 2", variable=var, value=9, command=sel)
 
         GlobalBuildHandler()
         btn_text = tk.StringVar()
@@ -150,8 +155,6 @@ class Build(Page):
         rad5.pack(side="top", fill="both", expand=False)
         rad6.pack(side="top", fill="both", expand=False)
         rad7.pack(side="top", fill="both", expand=False)
-        rad8.pack(side="top", fill="both", expand=False)
-        rad9.pack(side="top", fill="both", expand=False)
 
         RecStop.pack(side="top", expand=False)
 
@@ -160,6 +163,10 @@ class Build(Page):
                          command=lambda: Train())
 
         TrainButton.pack(side="top", expand=False)
+
+        SaveButton = Button(self, text="Save", bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: save())
+        SaveButton.pack(side="top", expand=False)
 
 
 class PickSchema(Page):
@@ -225,78 +232,9 @@ class LaunchGame(Page):
     def __init__(self, *args, **kwargs):
         Page.__init__(self, *args, **kwargs)
 
-        def readch():
-            """ Get a single character on Windows.
-            see http://msdn.microsoft.com/en-us/library/078sfkak
-            """
-            ch = msvcrt.getch()
-            if ch in b'\x00\xe0':  # arrow or function key prefix?
-                ch = msvcrt.getch()  # second call returns the actual key code
-            return ch
-
-        def control():
-                while True:
-
-                    if msvcrt.kbhit():
-                        key = ord(readch())
-                        if key == 27:  # ord('a')
-                            break
-                    # here are the classes, 1,2,3,4,,6,7,8: up,left,down,right,throw,quick,heavy,dodge
-                    # listen for the wek, this will be replaced later by an in house ML algo.
-                    data, addr = sock_RECE.recvfrom(1024)  # buffer size is 1024 bytes
-                    # print(data, len(data),"/n")
-                    # print(data[20],data[21])
 
 
 
-                    if data[20] == 63:
-                        # class 1
-                        pyautogui.keyDown('w')
-                        pyautogui.keyUp('w')
-                        print("up")
-
-                    elif data[20] == 64:
-                        if data[21] == 0:
-                            # class 2
-                            pyautogui.keyDown('a')
-                            pyautogui.keyUp('a')
-                            print("left")
-                        elif data[21] == 64:
-                            # class 3
-                            pyautogui.keyDown('s')
-                            pyautogui.keyUp('s')
-                            print("down")
-                        elif data[21] == 128:
-                            # class 4
-                            pyautogui.keyDown('d')
-                            pyautogui.keyUp('d')
-                            print("right")
-                        elif data[21] == 160:
-                            # class 5
-                            pyautogui.keyDown('h')
-                            pyautogui.keyUp('h')
-                            print("throw")
-                        elif data[21] == 192:
-                            # class 6
-                            pyautogui.keyDown('j')
-                            pyautogui.keyUp('j')
-                            print("quick")
-                        elif data[21] == 224:
-                            # class 7
-                            pyautogui.keyDown('k')
-                            pyautogui.keyUp('k')
-                            print("heavy")
-
-                    elif data[20] == 65:
-                        if data[21] != 16:
-                            # class 8
-                            pyautogui.keyDown('l')
-                            pyautogui.keyUp('l')
-                            print("dodge")
-                        elif data[21] == 16:
-                            # class 9
-                            print("standby")
-        # Launch Game
         def mclicked():
             chrome_path = ''
 
@@ -317,7 +255,8 @@ class LaunchGame(Page):
 
             # Launch Chrome
             webbrowser.get(chrome_path).open(url)
-            control()
+
+            control.control(character)
 
         Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked)
         Launchbtn.pack(side="top")
