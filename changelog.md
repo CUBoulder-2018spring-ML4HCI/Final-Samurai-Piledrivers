@@ -50,5 +50,7 @@ Tanner: Made basic script to control python with osc. Launch chrome within UI
 
 youtube video link: https://youtu.be/Pnx7VfZEdAQ
 
+4/24
 
+Tanner: Refactored OSC code to work on my comp with other Library.
 
