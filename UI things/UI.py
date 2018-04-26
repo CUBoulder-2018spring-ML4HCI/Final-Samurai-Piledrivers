@@ -5,6 +5,7 @@ import os
 import webbrowser
 import control
 import socket
+import os, sys, string, subprocess
 # import msvcrt
 import pyautogui
 from sys import platform
@@ -236,27 +237,9 @@ class LaunchGame(Page):
 
 
         def mclicked():
-            chrome_path = ''
-
-            if platform == "linux" or platform == "linux2":
-                # linux
-                chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-            elif platform == "darwin":
-                # OS X
-                chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-            elif platform == "win32":
-                # Windows...
-                chrome_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s'
-
-            url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
-
-            # Run Wekinator
-            client.send_message("/wekinator/control/startRunning", 1)
-
-            # Launch Chrome
-            webbrowser.get(chrome_path).open(url)
-
-            control.control(character)
+            cmd = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe  --profile-directory=Default --app-id=ckpjobcmemfpfeaeolhhjkjdpfnkngnd"
+            pro = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            pro.wait()
 
         Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked)
         Launchbtn.pack(side="top")
