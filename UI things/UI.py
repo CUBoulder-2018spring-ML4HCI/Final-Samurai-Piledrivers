@@ -132,9 +132,12 @@ class Build(Page):
                 RecCom = not RecCom
                 update_combo_text("Record Combo Moves")
 
-        # Call train osc message
+        # Call train osc messages
         def TrainBasic():
             client.send_message("/wekinator/control/train", 1)
+
+        def TrainCombo():
+            client2.send_message("/wekinator/control/train", 1)
 
         def sel():
             global selected
@@ -216,6 +219,12 @@ class Build(Page):
         combo_text.set("Record Combo Moves")
 
         RecCombo.pack(side="top", expand=False)
+
+        # Train Combo button
+        TrainComboButton = Button(self, text="Train Combo Moves", bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: TrainCombo())
+
+        TrainComboButton.pack(side="top", expand=False)
 
 
 class PickSchema(Page):
