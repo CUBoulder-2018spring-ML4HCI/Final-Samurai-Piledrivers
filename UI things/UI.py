@@ -3,11 +3,11 @@ from tkinter.ttk import *
 from tkinter import *
 import os
 import webbrowser
-# import control
+import control
 import socket
 import os, sys, string, subprocess
 # import msvcrt
-# import pyautogui
+import pyautogui
 from sys import platform
 
 # OSC Stuff
