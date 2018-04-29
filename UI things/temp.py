@@ -4,10 +4,10 @@ from pythonosc import dispatcher
 from pythonosc import osc_server
 
 import pyautogui
-import socket
 import time
 
-
+character = 0
+lemonade= [0]*9
 
 def print_volume_handler(unused_addr, args, volume):
     print("[{0}] ~ {1}".format(args[0], volume))
@@ -20,75 +20,40 @@ def print_compute_handler(unused_addr, args, volume):
     except ValueError:
         pass
 
-
-lemonade= [0]*9
 def checkhighest(lemonade):
     i=0
     highest = 0
     index = 0
-    while i < len(outlist):
-        if outlist[i] > highest:
-            highest = outlist[i]
+    while i < len(lemonade):
+        if lemonade[i] > highest:
+            highest = lemonade[i]
             index = i
         i+=1
     return index
 
-def control(character):
+def control(lemonade):
+    index = checkhighest(lemonade)
 
-    def comboInterp(charac, x):
+    #first is Ryu
+    if character == 1:
+        if index == 1:
+            Fireball()
+        if index == 2:
+            FlyingKick()
 
-        #ryu first
-        if charac == 1:
-            if x == 1:
-                Fireball()
-            if x == 2:
-                FlyingKick()
-
-        #next is Sagat
-        elif charac == 2:
-            if x == 1:
-                HighTigerShot()
-            else:
-                LowTigerShot()
-
-        #last is M. Bison
+    #next is Sagat
+    elif character == 2:
+        if index == 1:
+            HighTigerShot()
         else:
-            if x == 1:
-                PsychoCrusher()
-            else:
-                ScissorKick()
+            LowTigerShot()
 
-
-    while 1:
-        # here are the classes, 1,2,3,4,,6,7,8: up,left,down,right,throw,quick,heavy,dodge
-        # listen for the wek, this will be replaced later by an in house ML algo.
-
-        index = checkhighest(lemonade)
-
-        if index == 0:
-            if character == Ryu:
-                Fireball()
-            if character == Sagat:
-                HighTigerShot()
-            if character == Bison:
-                PsychoCrusher()
-            pass
-        elif index == 1:
-            pass
-        elif index == 2:
-            pass
-        elif index == 3:
-            pass
-        elif index == 4:
-            pass
-        elif index == 5:
-            pass
-        elif index == 6:
-            pass
-        elif index == 7:
-            pass
-        elif index == 8:
-            pass
+    #last is M. Bison
+    else:
+        if index == 1:
+            PsychoCrusher()
+        else:
+            ScissorKick()
 
 
 #M. Bison
@@ -111,7 +76,6 @@ def ScissorKick():
     pyautogui.keyUp('d')
 
 #Ryu
-
 def Fireball():
     pyautogui.keyDown('k')
     pyautogui.keyUp('k')
@@ -133,7 +97,6 @@ def FlyingKick():
     pyautogui.keyUp('s')
 
 
-
 #Sagat
 def HighTigerShot():
     pyautogui.keyDown('j')
@@ -152,8 +115,6 @@ def LowTigerShot():
     pyautogui.keyUp('c')
 
 
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip",
@@ -166,6 +127,7 @@ if __name__ == "__main__":
     dispatcher.map("/wek/outputs", lemonade)
     dispatcher.map("/volume", print_volume_handler, "Volume")
     dispatcher.map("/logvolume", print_compute_handler, "Log volume", math.log)
+    control(lemonade)
 
     server = osc_server.ThreadingOSCUDPServer(
         (args.ip, args.port), dispatcher)
