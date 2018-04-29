@@ -5,6 +5,7 @@ import os
 import webbrowser
 import control
 import socket
+import os, sys, string, subprocess
 # import msvcrt
 import pyautogui
 from sys import platform
@@ -18,7 +19,7 @@ from pythonosc import udp_client
 
 character = 0
 
-# Create OSC Client
+# Create first OSC Client
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="127.0.0.1",
   help="The ip of the OSC server")
@@ -26,6 +27,15 @@ parser.add_argument("--port", type=int, default=6448,
   help="The port the OSC server is listening on")
 args = parser.parse_args()
 client = udp_client.SimpleUDPClient(args.ip, args.port)
+
+# Create seconf OSC client
+parser2 = argparse.ArgumentParser()
+parser2.add_argument("--ip", default="127.0.0.1",
+  help="The ip of the OSC server")
+parser2.add_argument("--port", type=int, default=6669,
+  help="The port the OSC server is listening on")
+args2 = parser2.parse_args()
+client2 = udp_client.SimpleUDPClient(args2.ip, args2.port)
 
 
 SchemaList = ['Empty'] * 10
@@ -73,9 +83,18 @@ class Build(Page):
             global tempText
             tempText = "Record"
 
+            #RecCombos
+            global RecCom
+            RecCom = True
+            global tempT
+            tempT = "Record Combo"
+
 
         def update_btn_text(val):
             btn_text.set(val)
+
+        def update_combo_text(val):
+            combo_text.set(val)
 
         def RecSelected(sid):
             print("cactus", var.get())
@@ -93,11 +112,32 @@ class Build(Page):
                 client.send_message("/wekinator/control/stopRecording", 1)
                 print("Stopped recording")
                 RecSel = not RecSel
-                update_btn_text("Record")
+                update_btn_text("Record Basic Moves")
 
-        # Call train osc message
-        def Train():
+        def RecCombos(sid):
+            print("cactus", var.get())
+            temp = var.get()
+            global RecCom
+            global tempT
+            if RecCom:
+                # Record
+                client2.send_message("/wekinator/control/startRecording", 1)
+                RecCom = not RecCom
+                update_combo_text("Stop")
+                print("Recording value", temp)
+            else:
+                # Stop
+                client2.send_message("/wekinator/control/stopRecording", 1)
+                print("Stopped recording")
+                RecCom = not RecCom
+                update_combo_text("Record Combo Moves")
+
+        # Call train osc messages
+        def TrainBasic():
             client.send_message("/wekinator/control/train", 1)
+
+        def TrainCombo():
+            client2.send_message("/wekinator/control/train", 1)
 
         def sel():
             global selected
@@ -142,11 +182,12 @@ class Build(Page):
 
         GlobalBuildHandler()
         btn_text = tk.StringVar()
+        combo_text = tk.StringVar()
 
         sel()
         RecStop = Button(self, textvariable=btn_text, bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: RecSelected(selected))
-        btn_text.set("Record")
+        btn_text.set("Record Basic Moves")
 
         rad1.pack(side="top", fill="both", expand=False)
         rad2.pack(side="top", fill="both", expand=False)
@@ -159,14 +200,31 @@ class Build(Page):
         RecStop.pack(side="top", expand=False)
 
         # Train button
-        TrainButton = Button(self, text="Train", bg="#6c93d1", font=("Arial Bold", 15),
-                         command=lambda: Train())
+        TrainButton = Button(self, text="Train Basic Moves", bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: TrainBasic())
 
         TrainButton.pack(side="top", expand=False)
 
         SaveButton = Button(self, text="Save", bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: save())
         SaveButton.pack(side="top", expand=False)
+
+        # COMBO STUFF
+
+        combos = tk.Label(self, text="Train combo moves:")
+        combos.pack(side="top", fill="both", expand=False)
+
+        RecCombo = Button(self, textvariable=combo_text, bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: RecCombos(selected))
+        combo_text.set("Record Combo Moves")
+
+        RecCombo.pack(side="top", expand=False)
+
+        # Train Combo button
+        TrainComboButton = Button(self, text="Train Combo Moves", bg="#6c93d1", font=("Arial Bold", 15),
+                         command=lambda: TrainCombo())
+
+        TrainComboButton.pack(side="top", expand=False)
 
 
 class PickSchema(Page):
@@ -236,27 +294,9 @@ class LaunchGame(Page):
 
 
         def mclicked():
-            chrome_path = ''
-
-            if platform == "linux" or platform == "linux2":
-                # linux
-                chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-            elif platform == "darwin":
-                # OS X
-                chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-            elif platform == "win32":
-                # Windows...
-                chrome_path = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe %s'
-
-            url = 'https://chrome.google.com/webstore/detail/super-nintendo-emulator-s/ckpjobcmemfpfeaeolhhjkjdpfnkngnd?hl=en'
-
-            # Run Wekinator
-            client.send_message("/wekinator/control/startRunning", 1)
-
-            # Launch Chrome
-            webbrowser.get(chrome_path).open(url)
-
-            control.control(character)
+            cmd = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe  --profile-directory=Default --app-id=ckpjobcmemfpfeaeolhhjkjdpfnkngnd"
+            pro = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            pro.wait()
 
         Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked)
         Launchbtn.pack(side="top")
