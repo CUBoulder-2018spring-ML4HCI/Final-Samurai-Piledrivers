@@ -23,6 +23,7 @@ def checkhighest(outlist):
     return index
 
 
+
 #M. Bison
 def PsychoCrusher():
     pyautogui.keyDown('h')
@@ -43,15 +44,6 @@ def ScissorKick():
     pyautogui.keyUp('d')
 
 #Ryu
-def DragonPunch():
-    pyautogui.keyDown('k')
-    pyautogui.keyUp('k')
-    pyautogui.keyDown('j')
-    pyautogui.keyDown('k')
-    pyautogui.keyDown('s')
-    pyautogui.keyUp('j')
-    pyautogui.keyUp('k')
-    pyautogui.keyUp('s')
 
 def Fireball():
     pyautogui.keyDown('k')
@@ -82,6 +74,16 @@ def SomersaultThrow():
     pyautogui.keyDown('d')
     pyautogui.keyUp('k')
     pyautogui.keyUp('d')
+
+def DragonPunch():
+    pyautogui.keyDown('k')
+    pyautogui.keyUp('k')
+    pyautogui.keyDown('j')
+    pyautogui.keyDown('k')
+    pyautogui.keyDown('s')
+    pyautogui.keyUp('j')
+    pyautogui.keyUp('k')
+    pyautogui.keyUp('s')
 
 #Sagat
 def HighTigerShot():
@@ -159,7 +161,7 @@ def control(character):
         elif index == 8:
             pass
 
-        
+
 
         #
         # if data[20] == 63:
