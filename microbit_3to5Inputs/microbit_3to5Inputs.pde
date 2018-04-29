@@ -12,11 +12,9 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-
-
  
 int keyInput[] = {
-  KeyEvent.VK_D, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_W
+  KeyEvent.VK_K, KeyEvent.VK_H, KeyEvent.VK_J, KeyEvent.VK_U
 };
  
 
@@ -256,10 +254,6 @@ void getData() {
            //print("right");
            robot.keyPress(keyInput[0]);
          }
-         if (avg2 < 150){
-           //print("crouch")
-           robot.keyPress(keyInput[3]);
-         }
          else if(avg1 < -150){
            //print("left");
            robot.keyPress(keyInput[1]);
@@ -267,7 +261,6 @@ void getData() {
          else{
            robot.keyRelease(keyInput[0]);
            robot.keyRelease(keyInput[1]);
-           robot.keyRelease(keyInput[3]);
          }
        }
        catch(Exception e) {
@@ -388,4 +381,3 @@ void addVals(int finala1, int finala2, int finala3) {
        a1len++;
     }
 } 
-
