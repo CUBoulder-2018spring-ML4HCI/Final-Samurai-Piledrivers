@@ -2,6 +2,7 @@ import argparse
 import math
 from pythonosc import dispatcher
 from pythonosc import osc_server
+import sys
 
 import pyautogui
 import time
@@ -116,6 +117,9 @@ def LowTigerShot():
 
 
 if __name__ == "__main__":
+
+    character = sys.argv[1]
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip",
                         default="127.0.0.1", help="The ip to listen on")
