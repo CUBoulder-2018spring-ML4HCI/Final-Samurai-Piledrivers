@@ -3,13 +3,15 @@ import oscP5.*;
 import netP5.*;
 import java.util.Queue;
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 
 OscP5 oscP5;
 OscP5 oscP52;
 NetAddress dest;
 NetAddress dest2;
-Queue<Float> queue1 = new ArrayDeque(1024);
-Queue<Float> queue2 = new ArrayDeque(1024);
+int qsize = 128;
+Queue<Float> queue1 = new LinkedList<Float>();
+Queue<Float> queue2 = new LinkedList<Float>();
 Myo myo;
 ArrayList<ArrayList<Integer>> sensors;
 
@@ -78,15 +80,26 @@ void oscEvent(OscMessage theOscMessage) {
    
      if(theOscMessage.checkTypetag("f")) { // looking for 1 control value
        
-        
+         
         float simpleMove = theOscMessage.get(0).floatValue();
+        
         queue1.add(simpleMove);
+        /*println("SimpleMove: ");
+        println(simpleMove);
+        println("Queue1: ");
+        println(queue1);*/
         int one=0;
         int two=0;
         int three=0;
         int four=0;
+        /*print("queue size: ");
+        println(queue1.size());*/
+        queue2 = new LinkedList<Float>(queue1);
+        /*println("Queue2: ");
+        println(queue2);*/
         for(int i=0; i<queue1.size();i++){
-         float t = queue1.remove();
+          
+         float t = queue1.poll();
          if(t==1){
            one++;
          }
@@ -99,10 +112,19 @@ void oscEvent(OscMessage theOscMessage) {
          if(t==4){
            four++;
          }
-         queue2.add(t);
           
         }
         
+        queue1 = new LinkedList<Float>(queue2);
+        /*println("Queue1 post loop:");
+        println(queue1);
+        println("Queue2 post loop");
+        println(queue2);*/
+        if(queue1.size() >= qsize){
+         queue1.poll(); 
+        }
+        /*println(c);
+        println(queue1);*/
         
          float val = 0;
          if(one>=two && one>=three && one>=four){
