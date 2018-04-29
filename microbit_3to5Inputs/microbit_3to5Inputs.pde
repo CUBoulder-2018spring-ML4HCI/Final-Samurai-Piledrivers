@@ -8,6 +8,22 @@ import controlP5.*;
 import java.util.*;
 import oscP5.*;
 import netP5.*;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+
+
+ 
+int keyInput[] = {
+  KeyEvent.VK_D, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_W
+};
+ 
+
+    
+
+
+
 
 //Objects for display:
 ControlP5 cp5;
@@ -52,9 +68,14 @@ int[] a1_20 = new int[20];
 int[] a2_20 = new int[20];
 int[] a3_20 = new int[20];
 
+//for averaging accelerometer output.     
+int[] accel1 = new int[10];
+int[] accel2 = new int[10];
+
 void setup() {
   size(300, 300);
-  frameRate(100);
+  frameRate(25);
+
 
   //Set up display
   cp5 = new ControlP5(this);
@@ -121,6 +142,47 @@ void Port(int n) {
   gettingData = true;
 }
 
+void hopback(int lstID, int val){
+  if (lstID == 1){
+    int i=9;
+    while(i>0){
+      accel1[i] = accel1[i-1];
+      i= i-1;
+    }
+    accel1[0] = val;
+  }
+  else if (lstID == 2){
+    int i=9;
+    while(i>0){
+      accel2[i] = accel2[i-1];
+      i= i-1;
+    }
+    accel2[0] = val;
+  }
+}
+
+int avgAccel(int lstID){
+  if (lstID == 1){
+    int sum = 0;
+    int i=0;
+    while(i<9){
+      i=i+1;
+      sum = sum + accel1[i];
+    }
+    return sum/10;
+  }
+  else{
+    int sum = 0;
+    int i=0;
+    while(i<9){
+      i=i+1;
+      sum = sum + accel2[i];
+    }
+    return sum/10;
+  }
+}
+
+
 //Called in a loop at frame rate (100 Hz)
 void draw() {
   background(240);
@@ -177,9 +239,46 @@ void getData() {
        } 
     }else if (inByte == '\n') { //End of line: do something with this data
        a3 = a3s * a3;
+       
        finala1 = a1;
        finala2 = a2;
        finala3 = a3;
+       
+       hopback(1, finala1);
+       hopback(2, finala2);
+       
+       int avg1 = avgAccel(1);
+       int avg2 = avgAccel(2);
+       
+       try{
+         Robot robot = new Robot();
+         if(avg1 > 150){
+           //print("right");
+           robot.keyPress(keyInput[0]);
+         }
+         if (avg2 < 150){
+           //print("crouch")
+           robot.keyPress(keyInput[3]);
+         }
+         else if(avg1 < -150){
+           //print("left");
+           robot.keyPress(keyInput[1]);
+         }
+         else{
+           robot.keyRelease(keyInput[0]);
+           robot.keyRelease(keyInput[1]);
+           robot.keyRelease(keyInput[3]);
+         }
+       }
+       catch(Exception e) {
+         //Uh-oh...
+         e.printStackTrace();
+         exit();
+       }
+
+       
+       
+       
       //println("Last a1=" + a1 + ", last a2=" + a2 + ", last a3=" + a3);
       if (featureMode == 0 || featureMode == 2) {
         sendOsc();
