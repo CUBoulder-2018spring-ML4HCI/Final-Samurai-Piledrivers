@@ -8,7 +8,6 @@ import pyautogui
 import time
 
 character = 0
-lemonade= [0]*9
 
 def print_volume_handler(unused_addr, args, volume):
     print("[{0}] ~ {1}".format(args[0], volume))
@@ -20,7 +19,7 @@ def print_compute_handler(unused_addr, args, volume):
         print("here?")
     except ValueError:
         pass
-
+'''
 def checkhighest(lemonade):
     i=0
     highest = 0
@@ -31,30 +30,8 @@ def checkhighest(lemonade):
             index = i
         i+=1
     return index
+'''
 
-def control(lemonade):
-    index = checkhighest(lemonade)
-
-    #first is Ryu
-    if character == 1:
-        if index == 1:
-            Fireball()
-        if index == 2:
-            FlyingKick()
-
-    #next is Sagat
-    elif character == 2:
-        if index == 1:
-            HighTigerShot()
-        else:
-            LowTigerShot()
-
-    #last is M. Bison
-    else:
-        if index == 1:
-            PsychoCrusher()
-        else:
-            ScissorKick()
 
 
 #M. Bison
@@ -116,9 +93,68 @@ def LowTigerShot():
     pyautogui.keyUp('c')
 
 
+def onOSCinput(in1,in2,in3,in4,in5,in6):
+    inputosc = [in2,in3,in4,in5,in6]
+    gest = 5
+    if(in2<in3 and in2<in4 and in2<in5 and in2<in6):
+        if(in2<3):
+            pyautogui.keyDown('d')
+            pyautogui.keyUp('d')
+            gest=1
+            time.sleep(1)
+    if(in3<in2 and in3<in4 and in3<in5 and in3<in6):
+        if(in3<3):
+            pyautogui.keyDown('s')
+            pyautogui.keyUp('s')
+            gest=2
+            time.sleep(1)
+
+    if(in4<in3 and in4<in2 and in4<in5 and in4<in6):
+        if(in4<3):
+            #fireball
+            pyautogui.keyDown('j')
+            pyautogui.keyDown('k')
+
+            pyautogui.keyUp('j')
+
+            pyautogui.keyDown('s')
+            pyautogui.keyUp('k')
+
+
+            pyautogui.keyUp('s')
+            gest=3
+            time.sleep(1)
+
+    if(in5<in3 and in5<in4 and in5<in2 and in5<in6):
+        if(in5<3):
+            #lfireball
+            pyautogui.keyDown('l')
+            pyautogui.keyDown('k')
+
+            pyautogui.keyUp('l')
+
+            pyautogui.keyDown('s')
+            pyautogui.keyUp('k')
+
+
+            pyautogui.keyUp('s')
+            gest=4
+            time.sleep(1)
+
+    if(in6<in3 and in6<in4 and in6<in5 and in6<in2):
+        if(in6<3):
+            gest=5
+
+
+    print("Gesture: ",gest)
+
+    #print(inputosc)
+
+
 if __name__ == "__main__":
 
-    character = sys.argv[1]
+    character = 1
+
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--ip",
@@ -126,14 +162,41 @@ if __name__ == "__main__":
     parser.add_argument("--port",
                         type=int, default=12000, help="The port to listen on")
     args = parser.parse_args()
-
+    lemonade = 0
     dispatcher = dispatcher.Dispatcher()
-    dispatcher.map("/wek/outputs", lemonade)
+    global inputosc
+    dispatcher.map("/wek/outputs", onOSCinput)
+    print (lemonade)
     dispatcher.map("/volume", print_volume_handler, "Volume")
     dispatcher.map("/logvolume", print_compute_handler, "Log volume", math.log)
-    control(lemonade)
+
 
     server = osc_server.ThreadingOSCUDPServer(
         (args.ip, args.port), dispatcher)
     print("Serving on {}".format(server.server_address))
-    server.serve_forever()
+    lemonade= server.serve_forever()
+    while(1):
+
+
+        print(inputosc)
+
+        #first is Ryu
+        if character == 1:
+            if index == 1:
+                Fireball()
+            if index == 2:
+                FlyingKick()
+
+        #next is Sagat
+        elif character == 2:
+            if index == 1:
+                HighTigerShot()
+            else:
+                LowTigerShot()
+
+        #last is M. Bison
+        else:
+            if index == 1:
+                PsychoCrusher()
+            else:
+                ScissorKick()
