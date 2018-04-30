@@ -3,7 +3,6 @@ from tkinter.ttk import *
 from tkinter import *
 import os
 import webbrowser
-import control
 import socket
 import os, sys, string, subprocess
 # import msvcrt
@@ -300,6 +299,10 @@ class LaunchGame(Page):
             cmd = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe  --profile-directory=Default --app-id=ckpjobcmemfpfeaeolhhjkjdpfnkngnd"
             pro = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             pro.wait()
+            os.system('python temp.py')
+
+
+
 
         Launchbtn = tk.Button(self, text="Launch Game", bg="#6c93d1", font=("Arial Bold", 20), command=mclicked)
         Launchbtn.pack(side="top")
