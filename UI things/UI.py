@@ -32,7 +32,7 @@ client = udp_client.SimpleUDPClient(args.ip, args.port)
 parser2 = argparse.ArgumentParser()
 parser2.add_argument("--ip", default="127.0.0.1",
   help="The ip of the OSC server")
-parser2.add_argument("--port", type=int, default=6669,
+parser2.add_argument("--port", type=int, default=6451,
   help="The port the OSC server is listening on")
 args2 = parser2.parse_args()
 client2 = udp_client.SimpleUDPClient(args2.ip, args2.port)
@@ -114,23 +114,23 @@ class Build(Page):
                 RecSel = not RecSel
                 update_btn_text("Record Basic Moves")
 
-        def RecCombos(sid):
-            print("cactus", var.get())
+        def RecCombos(num):
+            print("cactus", num)
             temp = var.get()
             global RecCom
             global tempT
             if RecCom:
                 # Record
-                client2.send_message("/wekinator/control/startRecording", 1)
+                client2.send_message("/wekinator/control/startDtwRecording", num)
                 RecCom = not RecCom
                 update_combo_text("Stop")
                 print("Recording value", temp)
             else:
                 # Stop
-                client2.send_message("/wekinator/control/stopRecording", 1)
+                client2.send_message("/wekinator/control/stopDtwRecording", num)
                 print("Stopped recording")
                 RecCom = not RecCom
-                update_combo_text("Record Combo Moves")
+                update_combo_text("Record Combo Move")
 
         # Call train osc messages
         def TrainBasic():
@@ -211,12 +211,15 @@ class Build(Page):
 
         # COMBO STUFF
 
-        combos = tk.Label(self, text="Train combo moves:")
+        combos = tk.Label(self, text="Train combo moves (1-4):")
         combos.pack(side="top", fill="both", expand=False)
 
+        w = Spinbox(self, from_= 1, to= 4)
+        w.pack()
+
         RecCombo = Button(self, textvariable=combo_text, bg="#6c93d1", font=("Arial Bold", 15),
-                         command=lambda: RecCombos(selected))
-        combo_text.set("Record Combo Moves")
+                         command=lambda: RecCombos(int(w.get())))
+        combo_text.set("Record Combo Move")
 
         RecCombo.pack(side="top", expand=False)
 
