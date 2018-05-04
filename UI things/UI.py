@@ -6,7 +6,7 @@ import webbrowser
 import socket
 import os, sys, string, subprocess
 # import msvcrt
-# import pyautogui
+import pyautogui
 from sys import platform
 
 # OSC Stuff
@@ -102,7 +102,7 @@ class Build(Page):
             global tempText
             if RecSel:
                 # Record
-                client.send_message("/wekinator/control/outputs", [1,2])
+                # client.send_message("/wekinator/control/outputs", [1,2])
                 client.send_message("/wekinator/control/startRecording", 3)
                 RecSel = not RecSel
                 update_btn_text("Stop")
