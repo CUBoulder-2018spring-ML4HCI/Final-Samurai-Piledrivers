@@ -6,7 +6,7 @@ import webbrowser
 import socket
 import os, sys, string, subprocess
 # import msvcrt
-import pyautogui
+# import pyautogui
 from sys import platform
 
 # OSC Stuff
@@ -102,7 +102,8 @@ class Build(Page):
             global tempText
             if RecSel:
                 # Record
-                client.send_message("/wekinator/control/startRecording", 1)
+                client.send_message("/wekinator/control/outputs", [1,2])
+                client.send_message("/wekinator/control/startRecording", 3)
                 RecSel = not RecSel
                 update_btn_text("Stop")
                 print("Recording value", temp)
@@ -183,6 +184,7 @@ class Build(Page):
         btn_text = tk.StringVar()
         combo_text = tk.StringVar()
 
+
         sel()
         RecStop = Button(self, textvariable=btn_text, bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: RecSelected(selected))
@@ -195,6 +197,9 @@ class Build(Page):
         rad5.pack(side="top", fill="both", expand=False)
         rad6.pack(side="top", fill="both", expand=False)
         rad7.pack(side="top", fill="both", expand=False)
+
+        wBasic = Spinbox(self, from_= 1, to= 5)
+        wBasic.pack()
 
         RecStop.pack(side="top", expand=False)
 
