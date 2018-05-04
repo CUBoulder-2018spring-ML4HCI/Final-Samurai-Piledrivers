@@ -139,6 +139,9 @@ class Build(Page):
         def TrainCombo():
             client2.send_message("/wekinator/control/train", 1)
 
+        def DeleteRec(num):
+            client2.send_message("/wekinator/control/deleteExamplesForOutput", num)
+
         def sel():
             global selected
             selected = var.get()
@@ -211,6 +214,17 @@ class Build(Page):
 
         SaveButton = Button(self, text="Save", bg="#6c93d1", font=("Arial Bold", 15),
                          command=lambda: save())
+        SaveButton.pack(side="top", expand=False)
+
+        # Remove recording button
+
+        DeleteButton = Button(self, text="Delete last recording", bg="#6c93d1", font=("Arial Bold", 15),
+                              command=lambda: DeleteRec(int(w.get())))
+
+        DeleteButton.pack(side="top", expand=False)
+
+        SaveButton = Button(self, text="Save", bg="#6c93d1", font=("Arial Bold", 15),
+                            command=lambda: save())
         SaveButton.pack(side="top", expand=False)
 
         # COMBO STUFF
