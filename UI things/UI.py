@@ -330,21 +330,15 @@ class MainView(tk.Frame):
 
         ip.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         bp.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        ps.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
-        tu.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
         lg.place(in_=container, x=0, y=0, relwidth=1, relheight=1)
 
         # Label = tk.Label(buttonframe, text="SelectedSchema", command=bp.lift)
 
         b1 = tk.Button(buttonframe, text="Build New Schema", command=bp.lift)
-        b2 = tk.Button(buttonframe, text="Select Existing Schema", command=ps.lift)
-        b3 = tk.Button(buttonframe, text="Schema Test", command=tu.lift)
         b4 = tk.Button(buttonframe, text="Launch Game", command=lg.lift)
         b5 = tk.Button(buttonframe, text="home", command=ip.lift)
 
         b1.pack(side="left")
-        b2.pack(side="left")
-        b3.pack(side="left")
         b4.pack(side="left")
         b5.pack(side="left")
 
