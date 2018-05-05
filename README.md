@@ -2,7 +2,7 @@
 Control specific games with controller for different abilities of movement
 
 ## Video
-https://youtu.be/N71vQgSm0aY
+https://youtu.be/G5DaMzXrImA
 
 ## Dependencies
 All can be installed with pip:
