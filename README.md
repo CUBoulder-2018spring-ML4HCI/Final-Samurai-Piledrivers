@@ -2,7 +2,7 @@
 Control specific games with controller for different abilities of movement
 
 ## Video
-Put video here
+https://youtu.be/N71vQgSm0aY
 
 ## Dependencies
 All can be installed with pip:
@@ -23,3 +23,5 @@ Basic summary of instructions to use our application
 5. Launch the game from the UI
 6. Run `python temp.py`
 7. Make sure the SNES emulator is in focus on computer, the game is ready to be played
+
+
